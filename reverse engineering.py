@@ -4,6 +4,17 @@ lowPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61,
 maxNum = 9007199254740991
 factorArray = []
 
+def primeGenerator(limit):
+    limitn = limit+1
+    primes = dict()
+    for i in range(2, limitn): primes[i] = True
+
+    for i in primes:
+        factors = range(i,limitn, i)
+        for f in factors[1:]:
+            primes[f] = False
+    return [i for i in primes if primes[i]==True]
+
 class getFactors:
     def getFactors(self, Num):
         numLeft = Num
@@ -51,11 +62,24 @@ class addFactor:
 aF = addFactor()
 
 while True:
-    Num = int(input("Number: "))
-    numLeft = Num
-    if not Num < 2 or Num > maxNum:
-        f.getFactors(Num)
-        print(factorArray)
-        break
-    else:
-        print("You have made an invalid choice.")
+    while True:
+        primeCount = int(input("Amount of primes to generate: "))
+        if primeCount >= 1000000:
+            print("Please enter an amount of primes less than 1 million.")
+            break
+        else:
+            lowPrimes.extend(primeGenerator(primeCount))
+            try:
+                Num =int(input("Number to find factors of: "))
+                if not Num < 2 or Num > maxNum:
+                    numLeft = Num
+                    f.getFactors(Num)
+                    print("The prime factors of " + str(Num) + " are: ")
+                    print(factorArray)
+                    break
+                else:
+                    print("Please enter a valid number.")
+            except ValueError:
+                print("Enter an integer.")
+            
+                
