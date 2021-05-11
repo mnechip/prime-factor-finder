@@ -24,13 +24,13 @@ class getFactors:
             return factorArray
         else:
             doneQ = False
-            for p in range (0, lowPrimes[-1]):
+            for p in range (0, extendedPrimes[-1]):
                 p += 1
-                if tF.testFactors(lowPrimes[p-1]):
+                if tF.testFactors(extendedPrimes[p-1]):
                     doneQ = True
                     break
             if doneQ:
-                fact = math.trunc(lowPrimes[p-1] + 5/6)*6-1
+                fact = math.trunc(extendedPrimes[p-1] + 5/6)*6-1
                 while True:
                     if tF.testFactors(fact):
                         break
@@ -52,7 +52,7 @@ class testFactor:
             numLeft = numLeft / factor
         if power != 0:
             aF.addFactor(factor, power)
-        return numLeft / factor <= factor
+        return (numLeft / factor) <= factor
 tF = testFactor()
 
 class addFactor:
@@ -61,25 +61,22 @@ class addFactor:
             factorArray.append(factor)
 aF = addFactor()
 
-while True:
-    while True:
-        primeCount = int(input("Amount of primes to generate: "))
-        if primeCount >= 1000000:
-            print("Please enter an amount of primes less than 1 million.")
-            break
+primeCount = int(input("Amount of primes to generate: "))
+if primeCount >= 1000000:
+    print("Please enter an amount of primes less than 1 million.")
+else:
+    extendedPrimes = primeGenerator(primeCount)
+    try:
+        Num = int(input("Number to find factors of: "))
+        if not Num < 2 or Num > maxNum:
+            numLeft = Num
+            f.getFactors(Num)
+            print("The prime factors of " + str(Num) + " are: ")
+            print(factorArray)
+            print(extendedPrimes)
         else:
-            lowPrimes.extend(primeGenerator(primeCount))
-            try:
-                Num =int(input("Number to find factors of: "))
-                if not Num < 2 or Num > maxNum:
-                    numLeft = Num
-                    f.getFactors(Num)
-                    print("The prime factors of " + str(Num) + " are: ")
-                    print(factorArray)
-                    break
-                else:
-                    print("Please enter a valid number.")
-            except ValueError:
-                print("Enter an integer.")
+            print("Please enter a valid number.")
+    except ValueError:
+        print("Enter an integer.")
             
                 
